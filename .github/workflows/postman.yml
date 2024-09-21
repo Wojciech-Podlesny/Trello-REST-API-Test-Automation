@@ -1,0 +1,41 @@
+name: Postman Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Postman tests
+      env:
+        TRELLO_API_KEY: ${{ secrets.TRELLO_API_KEY }}
+        TRELLO_TOKEN: ${{ secrets.TRELLO_TOKEN }}
+      run: |
+        newman run tests/trello_collection.json --env-var "key=${TRELLO_API_KEY}" --env-var "token=${TRELLO_TOKEN}" --reporters cli,allure --reporter-allure-export allure-results
+
+    - name: Generate Allure Report
+      run: npm run allure
+
+    - name: Upload Allure Report as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report
+        path: allure-report

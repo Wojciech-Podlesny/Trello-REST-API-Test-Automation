@@ -1,0 +1,579 @@
+{
+	"info": {
+		"_postman_id": "64cd3de1-0beb-4b52-b23e-ab2b5239e198",
+		"name": "Project API Trello- tests automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15044176"
+	},
+	"item": [
+		{
+			"name": "Creation of a new boards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let oneTest;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    oneTest = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify created board name\", () => {\r",
+							"    pm.expect(oneTest.name).to.eql(pm.collectionVariables.get(\"boardName\"));\r",
+							"})\r",
+							"\r",
+							"pm.test('Should verify response id', () => {\r",
+							"    pm.expect(oneTest.id.length).to.greaterThan(10);\r",
+							"    pm.collectionVariables.set(\"boardID\",oneTest.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/boards/?name={{boardName}}&key={{key}}&token={{token}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{boardName}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Showing a list of boards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let oneTest\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    oneTest = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify type of name\", () => {\r",
+							"    oneTest.map(item => {\r",
+							"        pm.expect(item.name).to.be.a(\"string\");\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/members/me/boards?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"members",
+						"me",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creating a new list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let oneTest;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    oneTest = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify list name\", () => {\r",
+							"    pm.expect(oneTest.name).to.eql(pm.collectionVariables.get(\"listName\"));\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"listID\", oneTest.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/boards/{{boardID}}/lists?key={{key}}&token={{token}}&name={{listName}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"boards",
+						"{{boardID}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "name",
+							"value": "{{listName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Showing the list of available lists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let oneTest;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    oneTest = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify closed value\", () => {\r",
+							"   oneTest.map(item => {\r",
+							"       pm.expect(item.closed).to.eql(false);\r",
+							"   });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/boards/{{boardID}}/lists?key={{key}}&token={{token}}&name=W trakcie testów",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"boards",
+						"{{boardID}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "name",
+							"value": "W trakcie testów"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creating a new card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let oneTest;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    oneTest = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify value of id list and id board\", () => {\r",
+							"    pm.expect(oneTest.idList).to.eql(pm.collectionVariables.get(\"listID\"));\r",
+							"    pm.expect(oneTest.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"));\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"cardID\",oneTest.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/cards?idList={{listID}}&key={{key}}&token={{token}}&name={{firstCardName}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{listID}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "name",
+							"value": "{{firstCardName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creating the second card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let oneTest;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    oneTest = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify value of id list and id board\", () => {\r",
+							"    pm.expect(oneTest.idList).to.eql(pm.collectionVariables.get(\"listID\"));\r",
+							"    pm.expect(oneTest.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"));\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"secondCardID\",oneTest.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/cards?idList={{listID}}&key={{key}}&token={{token}}&name={{secondCardName}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{listID}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "name",
+							"value": "{{secondCardName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creating the third card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let oneTest;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    oneTest = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify value of id list and id board\", () => {\r",
+							"    pm.expect(oneTest.idList).to.eql(pm.collectionVariables.get(\"listID\"));\r",
+							"    pm.expect(oneTest.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"));\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"thirdCardID\",oneTest.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/cards?idList={{listID}}&key={{key}}&token={{token}}&name={{thirdCardName}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{listID}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "name",
+							"value": "{{thirdCardName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Showing the list of created cards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let oneTest;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    oneTest = pm.response.json();\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/boards/{{boardID}}/cards?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"boards",
+						"{{boardID}}",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete creating card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let oneTest;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"    oneTest = pm.response.json();\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/cards/{{cardID}}?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cards",
+						"{{cardID}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.trello.com/1",
+			"type": "string"
+		},
+		{
+			"key": "boardName",
+			"value": "Tablica z API",
+			"type": "string"
+		},
+		{
+			"key": "boardID",
+			"value": ""
+		},
+		{
+			"key": "listName",
+			"value": "W trakcie testów",
+			"type": "string"
+		},
+		{
+			"key": "listID",
+			"value": ""
+		},
+		{
+			"key": "firstCardName",
+			"value": "Nie działa system logowania",
+			"type": "string"
+		},
+		{
+			"key": "secondCardName",
+			"value": "Nie działa system wyszukiwarki",
+			"type": "string"
+		},
+		{
+			"key": "thirdCardName",
+			"value": "Nie działa system logowania",
+			"type": "string"
+		},
+		{
+			"key": "cardID",
+			"value": ""
+		},
+		{
+			"key": "secondCardID",
+			"value": ""
+		},
+		{
+			"key": "updateCardName",
+			"value": "Nie działa system rejestracji",
+			"type": "string"
+		},
+		{
+			"key": "updateCardDesc",
+			"value": "Użytkownik nie może zalogować się do aplikacji",
+			"type": "string"
+		},
+		{
+			"key": "thirdCardID",
+			"value": ""
+		}
+	]
+}

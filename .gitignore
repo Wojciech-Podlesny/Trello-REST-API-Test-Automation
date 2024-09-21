@@ -1,0 +1,15 @@
+# Ignoruj plik .env z kluczem API i tokenem
+.env
+
+# Ignoruj katalogi z raportami Allure
+allure-results/
+allure-report/
+node_modules/
+
+# Ignoruj inne pliki konfiguracyjne
+*.log
+*.tmp
+
+
+# Ignore Postman environment files if sensitive (optional)
+tests/environment.json
