@@ -46,7 +46,7 @@ This project contains automated REST API tests for Trello API, built using Postm
 
 ## Prepare Environment
 
-1. Clone repository: `git clone https://github.com/your-user/repo-name.git`
+1. Clone repository: `git clone https://github.com/Wojciech-Podlesny/Trello-REST-API-Test-Automation.git`
 
 2. Install requirements:
 
